@@ -9,28 +9,7 @@ export interface ProductState {
 }
 
 export const initialState: ProductState = {
-  data: [
-    {
-      id: null,
-      name: 'product 11111',
-      price: null,
-      categoryId: null,
-      rate: null,
-      content: '',
-      review: null,
-      imageUrl: '',
-    },
-    {
-      id: 333,
-      name: 'product 2222',
-      price: null,
-      categoryId: null,
-      rate: null,
-      content: '',
-      review: null,
-      imageUrl: '',
-    },
-  ],
+  data: [],
   loaded: false,
   loading: false,
 };
@@ -42,11 +21,15 @@ export const reducer = createReducer(
     loading: true,
     loaded: false,
   })),
-  on(ProductsActions.loadProductsSuccess, (state) => ({
-    ...state,
-    loading: false,
-    loaded: true,
-  })),
+  on(ProductsActions.loadProductsSuccess, (state, action) => {
+    const data = action.data;
+    return {
+      ...state,
+      loading: false,
+      loaded: true,
+      data,
+    };
+  }),
   on(ProductsActions.loadProductsFailure, (state) => ({
     ...state,
     loading: false,

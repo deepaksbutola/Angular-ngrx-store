@@ -12,10 +12,13 @@ export class ProductsEffects {
       ofType(ProductsActions.loadProducts),
       mergeMap(() =>
         this.productService.getProducts().pipe(
-          map((data: Product[]) => {
-            console.log('inside effects', data);
-            return ProductsActions.loadProductsSuccess({ data });
-          })
+          map(
+            (data: Product[]) => {
+              console.log('inside effects', data);
+              return ProductsActions.loadProductsSuccess({ data });
+            },
+            catchError((err) => ProductsActions.loadProductsFailure)
+          )
         )
       )
     )
